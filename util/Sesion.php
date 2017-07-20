@@ -18,7 +18,7 @@ class Session{
         }
         return $rpta;
     }
-    
+
     /*****************GET SET*************************/
     //retorna el valor de un atributo de sesion
     public static function getSesion($name){
@@ -28,7 +28,7 @@ class Session{
     }
     //guarda un atributo en session
     public static function setSesion($name,$value){$_SESSION[$name] = $value;}
-    
+
     /*****************ELIMINAR SESION**********************/
     //elimina un atributo de sesion
     public static function removeSesion($name){

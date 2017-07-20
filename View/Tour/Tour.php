@@ -38,7 +38,7 @@
                             </button>
                             <ul class="dropdown-menu" role="menu">
                             <?php
-                                
+
                                 foreach ($$Lista as $value) {
                                     echo"<li><a href='#'>".$value['idpaquete']."</a></li>";
                                 }
@@ -48,7 +48,7 @@
                         <br><br>
                     </div>
                 </div>
-        
+
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-12">
@@ -61,7 +61,7 @@
                     </div>
                     <div class="content-box-large box-with-header">
                         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
-                            <thead><tr><th>IdTour</th><th>NombreTour</th><th>Precio</th><th>Foto</th><th>Editar</th><th>Eliminar</th></tr></thead>     
+                            <thead><tr><th>IdTour</th><th>NombreTour</th><th>Precio</th><th>Foto</th><th>Editar</th><th>Eliminar</th></tr></thead>
                             <tbody>
                                 <?php
                                 $i=0;

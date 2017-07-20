@@ -1,19 +1,19 @@
 <?php
 class layout{
     function cabecera(){
-    ?>   
+    ?>
         <!DOCTYPE HTML>
         <html>
             <head>
-                <title>AgenciaPaquetes</title>  
+                <title>AgenciaPaquetes</title>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
                 <link href="../../Estilos/bootstrap/css/bootstrap.min.css" rel="stylesheet">
                 <link rel="stylesheet" type="text/css" href="../../Estilos/css/Estilos.css" title="style">
                 <link rel="stylesheet" type="text/css" href="../../Estilos/css/buttons.css" rel="stylesheet">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
             </head>
-            
-            <body>              
+
+            <body>
             <div class="header">
                 <div class="container">
                     <div class="row">
@@ -40,8 +40,8 @@ class layout{
 	           </div>
 	        </div>
 	     </div>
-	</div>      
-                
+	</div>
+
        <div id="site_content">
             <div class="page-content">
             <div class="row">
@@ -66,19 +66,19 @@ class layout{
                                         <li><a href="#">....</a></li>
                                     </ul>
                                 </li>
-                                
+
                                 <li><a href="#"><i class="glyphicon glyphicon-stats"></i>Ultimas Reservas</a></li>
                                 <li><a href="#"><i class="glyphicon glyphicon-tasks"></i> Reportes</a></li>
                                 <li><a href="#"><i class="glyphicon glyphicon-tasks"></i> Buscar</a></li>
                             </ul>
                          </div>
 		  </div>
-               
-                
+
+
                 <!-- insertar el contenido de la pagina -->
 		  <div class="col-md-10">
 		  	<div class="row">
-		  		<div class="col-md-12">                                    
+		  		<div class="col-md-12">
 		  			<div class="content-box-large">
                                             <?php
                                                 }
@@ -108,34 +108,34 @@ class layout{
                                               function footer(){
                                             ?>
 		  			</div>
-                                    
+
 		  		</div>
                             </div>
                         </div>
                     </div>
-                </div>              
+                </div>
                 <!-- fin de la inseerrcion de contenido-->
         <footer>
             <div class="container">
                 <div class="copy text-center"> Copyright 2017 <a href='../../index.php'>Website</a></div>
             </div>
-        </footer>              
+        </footer>
                 <!-- jQuery  -->
                 <script src="../../Layout/jquery-3.1.1.min.js"></script>
-                
-                
+
+
                 <!-- Include all compiled plugins (below), or include individual files as needed -->
                 <script src="../../Estilos/bootstrap/js/bootstrap.min.js"></script>
                 <script src="../../js/custom.js"></script>
                 <script src="../../js/tables.js"></script>
                 <script src="../../js/forms.js"></script>
-                
+
         </body>
     </html>
-        
-        
+
+
 <?php
 
-        }      
-}    
+        }
+}
 ?>

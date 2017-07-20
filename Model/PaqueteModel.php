@@ -5,14 +5,14 @@ class PaqueteModel{
     private $idpaquete;
     private $nombre;
     private $terminos;
-    
+
     function getidpaquete(){return $this->idpaquete;}
     function setidpaquete($idpaquete){$this->idpaquete=$idpaquete;}
     function getnombre(){return $this->nombre;}
     function setnombre($nombre){$this->nombre=$nombre;}
     function getterminos(){return $this->terminos;}
     function setterminos($terminos){$this->terminos=$terminos;}
-    
+
     //--METODOS
     public function Listar(){
         $query = "select * from tpaquetes";

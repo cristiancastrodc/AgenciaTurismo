@@ -1,125 +1,132 @@
-<?php    
-    class Layoutportada{
-    function header(){        
-        //$Lista=$_REQUEST['Lista'];
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>.::PerDestinoSeguro::..</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="../../Estilos/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="../../Estilos/css/EstilosPortada.css" rel="stylesheet">  
-  <link rel="stylesheet" type="text/css" href="../../Estilos/css/buttons.css" rel="stylesheet">
-  <script src="../../Layout/jquery-3.1.1.min.js"></script>
-  
-  <link rel="stylesheet" type="text/css" href="../../Estilos/css/Estilos.css" title="style">
-  <link rel="stylesheet" type="text/css" href="../../Estilos/css/buttons.css" rel="stylesheet">
-</head>
-<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
-
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-        <a class="navbar-brand" href="">Logo</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-          <li><a href="../../index.php">HOME</a></li>
-        <li><a href="#">OUR</a></li>    
-        
-        <?php
-        /**$row= json_decode($Lista);
-        foreach ($row as $value) {
-            echo"<li class='dropdown'>";
-            echo "<a class='dropdown-toggle' data-toggle='dropdown' href='#'>".$value->{'nombre'}."</td>";
-            echo "<span class='caret'></span></a>
-                    <ul class='dropdown-menu'>";
-            echo "<li><a href='#'></a></li>";
-                echo "</ul>
-                        </li>";
-        }*/
-        ?>   
-      </ul>
-    </div>
-  </div>
-</nav>
+<?php
+class Layoutportada {
+  function header($lista_paquetes, $lista_tours) { ?>
+    <!DOCTYPE html>
+    <html lang="es">
+      <head>
+        <title>.::PerDestinoSeguro::..</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="../../Estilos/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../../Estilos/css/EstilosPortada.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../../Estilos/css/buttons.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../../Estilos/css/Estilos.css" title="style">
+        <link rel="stylesheet" type="text/css" href="../../Estilos/css/buttons.css" rel="stylesheet">
+      </head>
+      <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Logo</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="myNavbar">
+              <ul class="nav navbar-nav">
+                <li><a href="../../index.php">HOME</a></li>
+                <li><a href="#">OUR</a></li>
+                <?php
+                // Mostrar los paquetes
+                foreach ($lista_paquetes as $paquete) { ?>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><?php echo $paquete['nombre']; ?> <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <?php foreach ($lista_tours as $tour): ?>
+                        <?php if ($tour['idpaquete'] == $paquete['idpaquete']): ?>
+                          <li><a href="PaginaVerMas.php?idtour=<?php echo $tour['idtour']; ?>"><?php echo $tour['nombretour']; ?></a></li>
+                    <p></p>
+                        <?php endif ?>
+                      <?php endforeach; ?>
+                    </ul>
+                  </li>
+                <?php }
+                ?>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
     <?php
-        }    
-    function bodypaquetes(){
-        $Lista=$_REQUEST['Lista'];
-        $row= json_decode($Lista);
-        foreach ($row as $value) {
-            echo '<div id="tour" class="bg-1">
-                <div class="container">';
-                echo '<h3 class="text-center">'.$value->{'nombre'}.'</h3>';
-                echo '<br>';
-                //Tours
-                echo '<div class="row text-center">
-                  <div class="col-sm-4">
-                    <div class="thumbnail">
-                    <img src="../../Imagenes/10391729_10150680656089959_3408138242925668183_n.jpg" alt="Paris" width="400" height="300">';
-                    echo '<p><strong>'.$value->{'nombretour'}.'</strong></p>';
-                    echo '<p>descripcion</p>
-                    <button class="btn" data-toggle="modal" data-target="#myModal"><a href="PaginaReservar.php?idtour=00001">Reservar</a></button>
-                    <button class="btn" data-toggle="modal" data-target="#myModal"><a href="PaginaVerMas.php?idtour=00001">Ver Mas</a></button>
-                    
+  }
+
+  function carrusel() { ?>
+          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Puntos Indicadores -->
+            <ol class="carousel-indicators">
+              <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+            </ol>
+            <!-- Imágenes -->
+            <div class="carousel-inner" role="listbox">
+              <div class="item active"><img src="../../Imagenes/10391729_10150680656089959_3408138242925668183_n.jpg" alt=""></div>
+              <div class="item"><img src="../../Imagenes/1459670_10150684076684959_388143811490661925_n.jpg" alt=""></div>
+              <div class="item"><img src="../../Imagenes/20299_10150685013954959_5811239329636232171_n.jpg" alt=""></div>
+              <div class="item"><img src="../../Imagenes/21582_10150677526904959_3911096393376306316_n.jpg" alt=""></div>
+              <div class="item"><img src="../../Imagenes/249107_10150682261434959_1250155813068328752_n.jpg" alt=""></div>
+            </div>
+            <!-- Controles -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+          </div>
+<?php
+  }
+
+  function presentacion() {
+  }
+
+  function bodypaquetes($lista_paquetes, $lista_tours) {
+    foreach ($lista_paquetes as $paquete) { ?>
+      <div class="bg-1">
+        <div class="container">
+          <h3 class="text-center"><?php echo $paquete['nombre']; ?></h3>
+          <div class="row">
+            <?php foreach ($lista_tours as $tour): ?>
+              <?php if ($tour['idpaquete'] == $paquete['idpaquete']): ?>
+                <div class="col-sm-4">
+                  <div class="thumbnail">
+                    <?php if ($tour['foto'] != null): ?>
+                      <img src="data:image/jpeg;base64,<?php echo base64_encode( $tour['foto'] ); ?>" />
+                    <?php else: ?>
+                      <img src="../../Imagenes/10391729_10150680656089959_3408138242925668183_n.jpg" alt="Paris" width="400" height="300">
+                    <?php endif ?>
+                    <p><strong><?php echo $tour['nombretour']; ?></strong></p>
+                    <p><?php echo $tour['infogeneral']; ?></p>
+                    <p><a href="PaginaReservar.php?idtour=<?php echo $tour['idtour']; ?>">Reservar</a></p>
+                    <p><a href="PaginaVerMas.php?idtour=<?php echo $tour['idtour']; ?>">Ver más</a></p>
                   </div>
-                </div>';
-                    
-                echo '<div class="col-sm-4">
-                    <div class="thumbnail">
-                    <img src="../../Imagenes/10391729_10150680656089959_3408138242925668183_n.jpg" alt="Paris" width="400" height="300">';
-                    echo '<p><strong>'.$value->{'nombretour'}.'</strong></p>';
-                    echo '<p>descripcion</p>
-                    <button class="btn" data-toggle="modal" data-target="#myModal">Reservar</button>
-                    <button class="btn" data-toggle="modal" data-target="#myModal">Ver Mas</button>
-                  </div>
-                </div>';
-                    
-                echo '<div class="col-sm-4">
-                <div class="thumbnail">
-                <img src="../../Imagenes/10391729_10150680656089959_3408138242925668183_n.jpg" alt="Paris" width="400" height="300">';
-                echo '<p><strong>'.$value->{'nombretour'}.'</strong></p>';
-                echo '<p>descripcion</p>
-                <button class="btn" data-toggle="modal" data-target="#myModal">Reservar</button>
-                <button class="btn" data-toggle="modal" data-target="#myModal">Ver Mas</button>
-              </div>
-            </div>';
-  
-echo '</div>
-</div>
-</div>
-<BR>';
-   }
-        
-?>
+                </div>
+              <?php endif ?>
+            <?php endforeach ?>
+          </div>
+        </div>
+      </div>
+    <?php }
+  }
 
-<?php 
-    }
-    function footer(){
-?>        
-<!-- Footer -->
-<footer class="text-center">
-  <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="TO TOP">
-    <span class="glyphicon glyphicon-chevron-up"></span>
-  </a><br><br>
-  <p>..: <a href="../../View/Admin/dashboard.php" data-toggle="tooltip" title="Peru Destino Seguro">www.PeruDestinoSeguro.com</a></p> 
-</footer>
-</div>
-</body>
-</html>
-
-
-    <?php 
-        }
+  function footer() { ?>
+        <!-- Footer -->
+        <footer class="text-center">
+          <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="TO TOP">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+          </a><br><br>
+          <p>..: <a href="../../View/Admin/dashboard.php" data-toggle="tooltip" title="Peru Destino Seguro">www.PeruDestinoSeguro.com</a></p>
+        </footer>
+        <!-- Scripts (se cargan al final de la página para no impactar el tiempo de carga) -->
+        <script src="../../Estilos/vendors/jquery/jquery.min.js"></script>
+        <script src="../../Estilos/bootstrap/js/bootstrap.min.js"></script>
+      </body>
+    </html><?php
+  }
 }
 ?>
- 
-

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../Model/TourModel.php';
+require_once '../Model/PaqueteModel.php';
 require_once '../util/Sesion.php';
 
 try {
@@ -12,6 +13,17 @@ try {
       $Lista = $model->Listar();
       Session::setSesion("lista", $Lista);
       $target="../View/Tour/Tour.php";
+      break;
+    case 'ListarPortada':
+      // Recuperar y enviar los paquetes
+      $model_paquete = new PaqueteModel();
+      $lista_paquetes = $model_paquete->Listar();
+      Session::setSesion("lista_paquetes", $lista_paquetes);
+      // Recuperar y enviar los tours
+      $Lista = $model->Listar();
+      Session::setSesion("lista", $Lista);
+      // Destino
+      $target = "../View/Pagina/Portada.php";
       break;
     case 'ListarNuevo':
       $Lista = $model->Listar();
