@@ -1,0 +1,139 @@
+DROP DATABASE AgenciaPaquetes2;
+CREATE database AgenciaPaquetes2;
+use AgenciaPaquetes2;
+
+/*********************** *************************/
+/*					TABLA EQUIPOS			 	 */
+/*********************** *************************/
+drop table if exists tequipos;
+create table tequipos(
+	idequipo varchar(5) primary key,
+    nombre varchar(35),
+    cantidad int,
+    precio int
+)engine Innodb default charset= utf8;
+
+/*********************** *************************/
+/*					TABLA CLIENTES			 	 */
+/*********************** *************************/
+drop table if exists tclientes;
+create table tclientes(
+	idcliente varchar(6) primary key,
+    nombres varchar(50),
+    apellidos varchar(50),
+    genero char(2),
+    telefono int,
+    email varchar(50),
+    pais varchar(50),
+    nropasaporte int,
+    fechanacimiento varchar(10),
+    estudiante char(2)
+)engine Innodb default charset= utf8;
+insert into tclientes values ('00001','vladimir','huarok santos','M',435678,'vladimir@gmail.com','portugal',46578,12-12-2012,'si');
+select * from tclientes;
+
+/*					TABLA PAQUETES			 	 */
+drop table if exists tpaquetes;
+create table tpaquetes(
+	idpaquete varchar(5) primary key,
+    nombre varchar(30),
+    terminos text    
+)engine Innodb default charset= utf8;
+
+/*					TABLA TOUR 				 	 */
+drop table if exists ttour;
+create table ttour(
+	idtour varchar(5) primary key,
+	nombretour varchar(45),
+    idpaquete varchar(5),
+    precio int,
+    infogeneral text,
+    iterinario text,
+    incluye text,
+	quellevar text,
+    foto blob,
+    constraint fkidpaquete foreign key (idpaquete) references tpaquetes(idpaquete)
+)engine Innodb default charset= utf8;
+
+select * from tpaquetes;
+select * from ttour;
+
+insert into tpaquetes values ('00001','INAKA TRAIL TREKS','los terminos y condiciones del pauqte que incluye una gma de tours');
+
+
+insert into ttour values ('00001','valle sagrado','00001',123,'el valle sagrado es uno de los lugare mas','el paseo es de dos dias y una noche','incluye una ','dsdad','');
+insert into ttour values ('00002','salkantay',10000,'el salkantay es uno de los lugares mas ','el paseo es de dos dias y una noche','incluye una ','dsdad','sadsad');
+
+
+
+/*********************** *************************/
+/*					TABLA RESERVAS			 	 */
+/*********************** *************************/
+drop table if exists treserva;
+create table treserva(
+	idreserva varchar(5) primary key,
+    fecha datetime,
+    nropasajeros int,
+    idtour varchar(5),
+    idequipo varchar(5),
+    /*idcliente varchar(6),*/
+    terminos text,
+    fechaViaje datetime,
+    montototal int,
+    constraint fkidtour foreign key (idtour) references ttour(idtour),
+    constraint fkidequipo foreign key (idequipo) references tequipos(idequipo)/*,
+    constraint fkidcliente foreign key (idcliente) references tclientes(idcliente)*/
+)engine Innodb default charset= utf8;
+
+/*********************** *************************/
+/*					TABLA CUENTAS POR COBRAR 	 */
+/*********************** *************************/
+drop table if exists tcuentasporcobrar;
+create table tcuentasporcobrar(
+	idcuenta varchar(5) primary key,
+	idpaquete varchar(5),
+    idcliente varchar(6),
+    acuenta int,
+    saldo int,
+    constraint fkidcliente foreign key (idcliente) references tclientes(idcliente),
+    constraint fkidpaquete foreign key (idpaquete) references tpaquete(idpaquete)
+)engine Innodb default charset= utf8;
+
+/*********************** *************************/
+/*					TABLA ADMINSTRADOR		 	 */
+/*********************** *************************/
+drop table if exists tadministrador;
+create table tadministrador(
+	idadmin varchar(5) primary key,
+    usuario varchar(30),
+    contraseña varchar(5),
+    habilitado bit,
+    nombre varchar(30),
+    apellidos varchar(30),
+    cargo varchar(30)
+)engine Innodb;
+
+
+
+
+
+select *from tclientes;
+
+insert into tclientes values ('00003','vladimir','huarok santos','M',435678,'vladimir@gmail.com','portugal',46578,12-12-2012,'si');
+insert into tclientes values ('00006','juana','sancusc santos','F',56578,'jjuana@gmail.com','España',45678,'2002-12-12','si');
+
+
+select *from ttour;
+select *from tequipos;
+select *from tadministrador;
+
+insert into tadministrador values ('00001','marco',123,1,'marcos','santos Satos','Guia IncaTravel');
+insert into ttour values ('00001','valle sagrado',123,'el valle sagrado es uno de los lugare mas','el paseo es de dos dias y una noche','incluye una ','dsdad','');
+insert into ttour values ('00002','machu picchu',134,2,'el mejor lugar del mundo para pasear',null);
+
+
+delete from tequipos where idequipo='00001'
+
+
+
+
