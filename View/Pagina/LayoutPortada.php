@@ -12,6 +12,9 @@ class Layoutportada {
         <link rel="stylesheet" type="text/css" href="../../Estilos/css/buttons.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="../../Estilos/css/Estilos.css" title="style">
         <link rel="stylesheet" type="text/css" href="../../Estilos/css/buttons.css" rel="stylesheet">
+        <!-- Scripts -->
+        <script src="../../Estilos/vendors/jquery/jquery.min.js"></script>
+        <script src="../../Estilos/bootstrap/js/bootstrap.min.js"></script>
       </head>
       <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -54,32 +57,31 @@ class Layoutportada {
   }
 
   function carrusel() { ?>
-          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-            <!-- Puntos Indicadores -->
-            <ol class="carousel-indicators">
-              <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="4"></li>
-            </ol>
-            <!-- Imágenes -->
-            <div class="carousel-inner" role="listbox">
-              <div class="item active"><img src="../../Imagenes/10391729_10150680656089959_3408138242925668183_n.jpg" alt=""></div>
-              <div class="item"><img src="../../Imagenes/1459670_10150684076684959_388143811490661925_n.jpg" alt=""></div>
-              <div class="item"><img src="../../Imagenes/20299_10150685013954959_5811239329636232171_n.jpg" alt=""></div>
-              <div class="item"><img src="../../Imagenes/21582_10150677526904959_3911096393376306316_n.jpg" alt=""></div>
-              <div class="item"><img src="../../Imagenes/249107_10150682261434959_1250155813068328752_n.jpg" alt=""></div>
-            </div>
-            <!-- Controles -->
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left"></span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right"></span>
-            </a>
-          </div>
-<?php
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+      <!-- Puntos Indicadores -->
+      <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+      </ol>
+      <!-- Imágenes -->
+      <div class="carousel-inner" role="listbox">
+        <div class="item active"><img src="../../Imagenes/10391729_10150680656089959_3408138242925668183_n.jpg" alt=""></div>
+        <div class="item"><img src="../../Imagenes/1459670_10150684076684959_388143811490661925_n.jpg" alt=""></div>
+        <div class="item"><img src="../../Imagenes/20299_10150685013954959_5811239329636232171_n.jpg" alt=""></div>
+        <div class="item"><img src="../../Imagenes/21582_10150677526904959_3911096393376306316_n.jpg" alt=""></div>
+        <div class="item"><img src="../../Imagenes/249107_10150682261434959_1250155813068328752_n.jpg" alt=""></div>
+      </div>
+      <!-- Controles -->
+      <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+      <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
+    </div><?php
   }
 
   function presentacion() {
@@ -96,9 +98,9 @@ class Layoutportada {
                 <div class="col-sm-4">
                   <div class="thumbnail">
                     <?php if ($tour['foto'] != null): ?>
-                      <img src="data:image/jpeg;base64,<?php echo base64_encode( $tour['foto'] ); ?>" />
+                      <img class="img-responsive" src="data:image/jpeg;base64,<?php echo base64_encode( $tour['foto'] ); ?>" />
                     <?php else: ?>
-                      <img src="../../Imagenes/10391729_10150680656089959_3408138242925668183_n.jpg" alt="Paris" width="400" height="300">
+                      <img class="img-responsive" src="../../Imagenes/10391729_10150680656089959_3408138242925668183_n.jpg" alt="Paris" width="400" height="300">
                     <?php endif ?>
                     <p><strong><?php echo $tour['nombretour']; ?></strong></p>
                     <p><?php echo $tour['infogeneral']; ?></p>
@@ -122,9 +124,6 @@ class Layoutportada {
           </a><br><br>
           <p>..: <a href="../../View/Admin/dashboard.php" data-toggle="tooltip" title="Peru Destino Seguro">www.PeruDestinoSeguro.com</a></p>
         </footer>
-        <!-- Scripts (se cargan al final de la página para no impactar el tiempo de carga) -->
-        <script src="../../Estilos/vendors/jquery/jquery.min.js"></script>
-        <script src="../../Estilos/bootstrap/js/bootstrap.min.js"></script>
       </body>
     </html><?php
   }

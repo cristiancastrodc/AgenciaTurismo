@@ -10,10 +10,8 @@
   }
   // Recuperar la lista de Paquetes y quitar de la sesión
   $lista_paquetes = Session::getSesion("lista_paquetes");
-  Session::eliminarSesion("lista_paquetes");
   // Recuperar la lista de Tours y quitar de la sesión
   $lista_tours = Session::getSesion("lista");
-  Session::eliminarSesion("lista");
   // Mostrar la página
   Layoutportada::header($lista_paquetes, $lista_tours);
   Layoutportada::carrusel();

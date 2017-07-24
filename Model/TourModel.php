@@ -1,5 +1,5 @@
 <?php
-require_once '../BD/Conexion.php';
+require_once dirname(__FILE__) . '/../BD/Conexion.php';
 class TourModel{
     //ATRIBUTOS
     private $idtour;

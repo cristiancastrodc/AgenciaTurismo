@@ -1,70 +1,132 @@
 <?php
-include_once 'C:/xampp/htdocs/HappyGringoSistema4/Model/ClienteModel.php';
-include_once 'C:/xampp/htdocs/HappyGringoSistema4/Model/ReservarModel.php';
+session_start();
+include_once __DIR__ . '/../Model/ClienteModel.php';
+include_once __DIR__ . '/../Model/ReservarModel.php';
+include_once __DIR__ . '/../Model/ReservaDetalleModel.php';
+include_once __DIR__ . '/../Model/PagoModel.php';
+require_once __DIR__ . '/../util/Sesion.php';
 
-$Op = $_REQUEST["Op"];
-
-$idreserva=$_REQUEST["idreserva"];
-$idtour=$_REQUEST["idtour"];
-$fechaviaje=$_REQUEST["fechaviaje"];
-
-$idcliente=$_REQUEST["idcliente"];
-$nombres=$_REQUEST["nombres"];
-$apellido = $_REQUEST["apellidos"];
-$genero= $_REQUEST["genero"];
-$telefono = $_REQUEST["telefono"];
-$email =$_REQUEST["email"];
-$pais=$_REQUEST["pais"];
-$nropasaporte=$_REQUEST["nropasaporte"];
-$fechanacimiento =$_REQUEST["fechanacimiento"];
-$estudiante = $_REQUEST["estudiante"];
-
-$idequipo=$_REQUEST["idequipo"];
-$montototal=$_REQUEST["montototal"];
-
-switch ($Op){
-    /*case 'Listar':
-        $url="../View/Paquete/Paquete.php?Lista=".$Lista;
-        break;*/
+try {
+  $Op = $_REQUEST["Op"];
+  switch ($Op) {
     case 'Guardar':
-        fn_GuardarReserva($idreserva,$idtour,$idequipo,$idcliente,$fechaviaje,$montototal);
-        fn_GuardarCliente($idcliente,$nombres,$apellido,$genero,$telefono,$email,$pais,$nropasaporte,$fechanacimiento,$estudiante);    
-        $url="http://localhost:8080/HappyGringoSistema4/View/Pagina/Portada.php?Lista=[]";
-        header ("location:$url");
-        break;
-    /*case 'Eliminar':
-        $url="PaqueteController.php?Op=Listar";
-        break;
-    case 'Recuperar':
-        $url="../View/Paquete/EditarPaquete.php?Lista=".$Lista;    
-        break;
-    case 'Editar':
-        $url="PaqueteController.php?Op=Listar";
-        break;*/
+      // Recuperar e insertar clientes
+      $clientes = $_REQUEST['clientes'];
+      $ids_clientes = fn_GuardarClientes($clientes);
+      // Recuperar y almacenar reserva
+      $idtour = $_REQUEST['idtour'];
+      $idequipo = $_REQUEST['idequipo'];
+      $fechaviaje = $_REQUEST['fechaviaje'];
+      $preciotour = $_REQUEST['preciotour'];
+      $montoequipo = $_REQUEST['montoequipo'];
+      fn_GuardarReserva($idtour, $idequipo, $ids_clientes, $fechaviaje, $preciotour, $montoequipo);
+      Session::setSesion("mensajeReserva", 'Se guardó la reserva correctamente.');
+      $target = "../View/Pagina/PaginaReservar.php?idtour=$idtour";
+      break;
+    default:
+      Session::setSesion("mensajeErr", "Operación no válida.");
+      $target = "../View/Pagina/Portada.php";
+      break;
+  }
+} catch (Exception $e) {
+  $target = "../View/Pagina/Portada.php";
+  Session::setSesion("mensajeErr", $e->getMessage());
 }
+header ("location:$target");
 
-
-function fn_GuardarCliente($idcliente,$nombres,$apellido,$genero,$telefono,$email,$pais,$nropasaporte,$fechanacimiento,$estudiante){    
+// Función para guardar los clientes
+function fn_GuardarClientes($clientes) {
+  // Recuperar el último idcliente para obtener el siguiente
+  $idcliente = '';
+  $model = new ClienteModel();
+  $Lista = $model->Listar();
+  $cantidad = count($Lista);
+  if ($cantidad > 0) {
+    // substr quita el caracter C delantero, intval convierte el string a entero para finalmente añadir una unidad
+    $sgte = intval(substr($Lista[$cantidad - 1]['idcliente'], 1)) + 1;
+    // Formatear para obtener el siguiente código
+    $idcliente = "C" . str_pad($sgte, 4, "0", STR_PAD_LEFT);
+  } else {
+    $idcliente = "C0001";
+  }
+  // Generar array que guarda los ids de los clientes insertados
+  $ids_clientes = array();
+  // Guardar cada cliente
+  foreach ($clientes as $cliente) {
+    // Insertar el cliente
     $model = new ClienteModel();
     $model->setidcliente($idcliente);
-    $model->setnombres($nombres);
-    $model->setapellidos($apellido);
-    $model->setgenero($genero);
-    $model->settelefono($telefono);
-    $model->setemail($email);
-    $model->setpais($pais);
-    $model->setnropasaporte($nropasaporte);
-    $model->setfechanacimiento($fechanacimiento);
-    $model->setestudiante($estudiante);
+    $model->setnombres($cliente['nombres']);
+    $model->setapellidos($cliente['apellidos']);
+    $model->setgenero($cliente['genero']);
+    $model->settelefono($cliente['telefono']);
+    $model->setemail($cliente['email']);
+    $model->setpais($cliente['pais']);
+    $model->setnropasaporte($cliente['nropasaporte']);
+    $model->setfechanacimiento($cliente['fechanacimiento']);
+    $model->setestudiante($cliente['estudiante']);
     $model->Insertar();
+    // Almacenar el id para devolver dentro del array
+    array_push($ids_clientes, $idcliente);
+    // Actualizar idcliente
+    $sgte = intval(substr($idcliente, 1)) + 1;
+    // Formatear para obtener el siguiente código
+    $idcliente = "C" . str_pad($sgte, 4, "0", STR_PAD_LEFT);
+  }
+  // Devolver los ids de los clientes creados
+  return $ids_clientes;
 }
-function fn_GuardarReserva($idreserva,$idtour,$idequipo,$idcliente,$fechaviaje,$montototal){    
-    $modelreserva  =  new ReservaModel();    
-    $modelreserva->setidreserva($idreserva);
-    $modelreserva->setidtour($idtour);
-    $modelreserva->setidcliente($idcliente);
-    $modelreserva->setidequipo($idequipo);
-    $modelreserva->setfechaviaje($fechaviaje);
-    $modelreserva->setmontototal($montototal);
-    $modelreserva->Insertar();
+// Función para guardar la reserva
+function fn_GuardarReserva($idtour, $idequipo, $ids_clientes, $fechaviaje, $preciotour, $montoequipo) {
+  // Guardar la reserva
+  $modelreserva = new ReservaModel();
+  $idreserva = '';
+  // Recuperar el número de reserva correspondiente
+  $lista_reservas = $modelreserva->Listar();
+  $cantidad = count($lista_reservas);
+  if ($cantidad > 0) {
+    // substr quita el caracter R delantero, intval convierte el string a entero para finalmente añadir una unidad
+    $sgte = intval(substr($lista_reservas[$cantidad - 1]['idreserva'], 1)) + 1;
+    // Formatear para obtener el siguiente código
+    $idreserva = "R" . str_pad($sgte, 4, "0", STR_PAD_LEFT);
+  } else {
+    $idreserva = "R0001";
+  }
+  // Asignar datos a la reserva
+  $modelreserva->setidreserva($idreserva);
+  $modelreserva->setidtour($idtour);
+  $modelreserva->setidequipo($idequipo);
+  $modelreserva->setfechaviaje($fechaviaje);
+  $modelreserva->Insertar();
+  // Guardar el detalle de la reserva
+  $modeldetallereserva = new ReservaDetalleModel();
+  $montototal = 0;
+  foreach ($ids_clientes as $idcliente) {
+    $modeldetallereserva->setidreserva($idreserva);
+    $modeldetallereserva->setidcliente($idcliente);
+    $modeldetallereserva->setprecio($preciotour);
+    $modeldetallereserva->Insertar();
+    // Aumentar el monto total
+    $montototal += floatval($preciotour);
+  }
+  // Guardar el Pago
+  $modelpago = new PagoModel();
+  $idpago = '';
+  // Recuperar el número de reserva correspondiente
+  $lista_pagos = $modelpago->Listar();
+  $cantidad = count($lista_pagos);
+  if ($cantidad > 0) {
+    // substr quita el caracter C delantero, intval convierte el string a entero para finalmente añadir una unidad
+    $sgte = intval(substr($lista_pagos[$cantidad - 1]['idpago'], 1)) + 1;
+    // Formatear para obtener el siguiente código
+    $idpago = "P" . str_pad($sgte, 4, "0", STR_PAD_LEFT);
+  } else {
+    $idpago = "P0001";
+  }
+  // Asignar datos e insertar
+  $modelpago->setidpago($idpago);
+  $modelpago->setidreserva($idreserva);
+  $total = $montototal + floatval($montoequipo);
+  $modelpago->setmontototal($total);
+  $modelpago->Insertar();
 }

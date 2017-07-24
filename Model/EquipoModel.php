@@ -1,12 +1,13 @@
 <?php
-require_once 'C:/xampp/htdocs/HappyGringoSistema4/BD/Conexion.php';
+require_once __DIR__ . '/../BD/Conexion.php';
+
 class EquipoModel{
     //ATRIBUTOS
     private $idequipo;
     private $nombre;
     private $precio;
     private $cantidad;
-    
+
     function getidequipo(){return $this->idequipo;}
     function setidequipo($idequipo){$this->idequipo=$idequipo;}
     function getnombre(){return $this->nombre;}
@@ -15,7 +16,7 @@ class EquipoModel{
     function setcantidad($cantidad){$this->cantidad=$cantidad;}
     function getprecio(){return $this->precio;}
     function setprecio($precio){$this->precio=$precio;}
-    
+
     //--METODOS
     public function Listar(){
         $query = "select * from tequipos";

@@ -44,11 +44,10 @@ class ConexionBD{
         return $respuesta;
     }
 }
+/*
 $basedatos = new ConexionBD();
 $resulta = $basedatos->ejecutarQuery("select * from tpaquetes where idpaquete='00001';");
 $dato=$resulta[0];
 print_r($dato[0]);
-
-
+*/
 //print_r($resulta[0]);
-
