@@ -3,6 +3,7 @@ session_start();
 include_once __DIR__ . '/../Model/ClienteModel.php';
 include_once __DIR__ . '/../Model/ReservarModel.php';
 include_once __DIR__ . '/../Model/ReservaDetalleModel.php';
+include_once __DIR__ . '/../Model/EquipoReservaModel.php';
 include_once __DIR__ . '/../Model/PagoModel.php';
 require_once __DIR__ . '/../util/Sesion.php';
 
@@ -15,11 +16,10 @@ try {
       $ids_clientes = fn_GuardarClientes($clientes);
       // Recuperar y almacenar reserva
       $idtour = $_REQUEST['idtour'];
-      $idequipo = $_REQUEST['idequipo'];
-      $fechaviaje = $_REQUEST['fechaviaje'];
       $preciotour = $_REQUEST['preciotour'];
-      $montoequipo = $_REQUEST['montoequipo'];
-      fn_GuardarReserva($idtour, $idequipo, $ids_clientes, $fechaviaje, $preciotour, $montoequipo);
+      $fechaviaje = $_REQUEST['fechaviaje'];
+      $equipos = $_REQUEST['equipos'];
+      fn_GuardarReserva($idtour, $preciotour, $fechaviaje, $ids_clientes, $equipos);
       Session::setSesion("mensajeReserva", 'Se guardó la reserva correctamente.');
       $target = "../View/Pagina/PaginaReservar.php?idtour=$idtour";
       break;
@@ -77,7 +77,7 @@ function fn_GuardarClientes($clientes) {
   return $ids_clientes;
 }
 // Función para guardar la reserva
-function fn_GuardarReserva($idtour, $idequipo, $ids_clientes, $fechaviaje, $preciotour, $montoequipo) {
+function fn_GuardarReserva($idtour, $preciotour, $fechaviaje, $ids_clientes, $equipos) {
   // Guardar la reserva
   $modelreserva = new ReservaModel();
   $idreserva = '';
@@ -95,19 +95,31 @@ function fn_GuardarReserva($idtour, $idequipo, $ids_clientes, $fechaviaje, $prec
   // Asignar datos a la reserva
   $modelreserva->setidreserva($idreserva);
   $modelreserva->setidtour($idtour);
-  $modelreserva->setidequipo($idequipo);
   $modelreserva->setfechaviaje($fechaviaje);
   $modelreserva->Insertar();
   // Guardar el detalle de la reserva
   $modeldetallereserva = new ReservaDetalleModel();
-  $montototal = 0;
+  $totaltour = 0;
   foreach ($ids_clientes as $idcliente) {
     $modeldetallereserva->setidreserva($idreserva);
     $modeldetallereserva->setidcliente($idcliente);
     $modeldetallereserva->setprecio($preciotour);
     $modeldetallereserva->Insertar();
     // Aumentar el monto total
-    $montototal += floatval($preciotour);
+    $totaltour += floatval($preciotour);
+  }
+  // Guardar los equipos de la reserva
+  $modelequiporeserva = new EquipoReservaModel();
+  $totalequipos = 0;
+  foreach ($equipos as $equipo) {
+    $modelequiporeserva->setidreserva($idreserva);
+    $modelequiporeserva->setidequipo($equipo['idequipo']);
+    $modelequiporeserva->setprecio($equipo['precio']);
+    $modelequiporeserva->setcantidad($equipo['cantidad']);
+    $modelequiporeserva->settotal($equipo['total']);
+    $modelequiporeserva->Insertar();
+    // Aumentar el monto total
+    $totalequipos += floatval($equipo['total']);
   }
   // Guardar el Pago
   $modelpago = new PagoModel();
@@ -126,7 +138,7 @@ function fn_GuardarReserva($idtour, $idequipo, $ids_clientes, $fechaviaje, $prec
   // Asignar datos e insertar
   $modelpago->setidpago($idpago);
   $modelpago->setidreserva($idreserva);
-  $total = $montototal + floatval($montoequipo);
+  $total = $totaltour + $totalequipos;
   $modelpago->setmontototal($total);
   $modelpago->Insertar();
 }

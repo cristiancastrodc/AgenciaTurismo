@@ -14,7 +14,7 @@
   $lista_tours = Session::getSesion("lista");
   // Mostrar la página
   Layoutportada::header($lista_paquetes, $lista_tours);
-  Layoutportada::carrusel();
+  Layoutportada::carrusel($lista_tours);
   Layoutportada::presentacion();
   Layoutportada::bodypaquetes($lista_paquetes, $lista_tours);
   Layoutportada::footer();

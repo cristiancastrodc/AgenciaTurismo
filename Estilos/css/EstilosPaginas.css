@@ -1,5 +1,5 @@
 /***********************  MENU   *************************/
-/* Add a dark background color with a little bit see-through */ 
+/* Add a dark background color with a little bit see-through */
 .navbar {
     margin-bottom: 0;
     background-color: #6a9113;
@@ -10,7 +10,7 @@
 }
 
 /* Add a gray color to all navbar links */
-.navbar li a, .navbar .navbar-brand { 
+.navbar li a, .navbar .navbar-brand {
     color: #d5d5d5 !important;
 }
 

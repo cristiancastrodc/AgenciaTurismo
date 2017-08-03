@@ -664,3 +664,14 @@ input.no-input {
   border: none;
   background-color: transparent;
 }
+/* Tamaño de celdas en tablas */
+.table-compact td {
+  max-width: 100px;
+}
+.table-compact td > input {
+  width: 100%;
+}
+.carousel {
+  max-height: 600px;
+  overflow: hidden;
+}

@@ -56,23 +56,28 @@ class Layoutportada {
     <?php
   }
 
-  function carrusel() { ?>
+  function carrusel($lista_tours) { ?>
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
       <!-- Puntos Indicadores -->
+      <?php $i = 0; ?>
       <ol class="carousel-indicators">
-        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+        <?php $j = 0; ?>
+        <?php foreach ($lista_tours as $tour): ?>
+          <?php if ($tour['foto'] != null): ?>
+            <li data-target="#carousel-example-generic" data-slide-to="<?php echo $j; $j++; ?>" class="<?php if ($i == 0) { echo "active"; $i++; } ?>"></li>
+          <?php endif; ?>
+        <?php endforeach ?>
       </ol>
       <!-- Imágenes -->
+      <?php $i = 0; ?>
       <div class="carousel-inner" role="listbox">
-        <div class="item active"><img src="../../Imagenes/10391729_10150680656089959_3408138242925668183_n.jpg" alt=""></div>
-        <div class="item"><img src="../../Imagenes/1459670_10150684076684959_388143811490661925_n.jpg" alt=""></div>
-        <div class="item"><img src="../../Imagenes/20299_10150685013954959_5811239329636232171_n.jpg" alt=""></div>
-        <div class="item"><img src="../../Imagenes/21582_10150677526904959_3911096393376306316_n.jpg" alt=""></div>
-        <div class="item"><img src="../../Imagenes/249107_10150682261434959_1250155813068328752_n.jpg" alt=""></div>
+        <?php foreach ($lista_tours as $tour): ?>
+          <?php if ($tour['foto'] != null): ?>
+            <div class="item <?php if ($i == 0) { echo "active"; $i++; } ?>">
+              <img class="img-responsive" src="data:image/jpeg;base64,<?php echo base64_encode( $tour['foto'] ); ?>" />
+            </div>
+          <?php endif; ?>
+        <?php endforeach ?>
       </div>
       <!-- Controles -->
       <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">

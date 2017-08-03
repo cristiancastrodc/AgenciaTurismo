@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-07-2017 a las 05:36:03
+-- Tiempo de generación: 03-08-2017 a las 04:31:35
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `dbtest`
+-- Base de datos: `dbagenciaturismo`
 --
 
 -- --------------------------------------------------------
@@ -54,6 +54,20 @@ CREATE TABLE `tclientes` (
   `fechanacimiento` varchar(10) DEFAULT NULL,
   `estudiante` char(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tequiporeserva`
+--
+
+CREATE TABLE `tequiporeserva` (
+  `idreserva` varchar(5) CHARACTER SET utf8 NOT NULL,
+  `idequipo` varchar(5) CHARACTER SET utf8 NOT NULL,
+  `precio` int(11) NOT NULL DEFAULT '0',
+  `cantidad` int(11) NOT NULL DEFAULT '0',
+  `total` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -117,7 +131,6 @@ CREATE TABLE `tpaquetes` (
 CREATE TABLE `treserva` (
   `idreserva` varchar(5) NOT NULL,
   `idtour` varchar(5) DEFAULT NULL,
-  `idequipo` varchar(5) DEFAULT NULL,
   `fechaViaje` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -169,6 +182,13 @@ ALTER TABLE `tclientes`
   ADD PRIMARY KEY (`idcliente`);
 
 --
+-- Indices de la tabla `tequiporeserva`
+--
+ALTER TABLE `tequiporeserva`
+  ADD PRIMARY KEY (`idreserva`,`idequipo`),
+  ADD KEY `fkequiporeserva02` (`idequipo`);
+
+--
 -- Indices de la tabla `tequipos`
 --
 ALTER TABLE `tequipos`
@@ -198,8 +218,7 @@ ALTER TABLE `tpaquetes`
 --
 ALTER TABLE `treserva`
   ADD PRIMARY KEY (`idreserva`),
-  ADD KEY `fkidtour` (`idtour`),
-  ADD KEY `fkidequipo` (`idequipo`);
+  ADD KEY `fkidtour` (`idtour`);
 
 --
 -- Indices de la tabla `treservadetalle`
@@ -221,6 +240,13 @@ ALTER TABLE `ttour`
 --
 
 --
+-- Filtros para la tabla `tequiporeserva`
+--
+ALTER TABLE `tequiporeserva`
+  ADD CONSTRAINT `fkequiporeserva01` FOREIGN KEY (`idreserva`) REFERENCES `treserva` (`idreserva`),
+  ADD CONSTRAINT `fkequiporeserva02` FOREIGN KEY (`idequipo`) REFERENCES `tequipos` (`idequipo`);
+
+--
 -- Filtros para la tabla `tpago`
 --
 ALTER TABLE `tpago`
@@ -230,15 +256,14 @@ ALTER TABLE `tpago`
 -- Filtros para la tabla `treserva`
 --
 ALTER TABLE `treserva`
-  ADD CONSTRAINT `fkidequipo` FOREIGN KEY (`idequipo`) REFERENCES `tequipos` (`idequipo`),
   ADD CONSTRAINT `fkidtour` FOREIGN KEY (`idtour`) REFERENCES `ttour` (`idtour`);
 
 --
 -- Filtros para la tabla `treservadetalle`
 --
 ALTER TABLE `treservadetalle`
-  ADD CONSTRAINT `fkidreservadetalle_idreserva` FOREIGN KEY (`idreserva`) REFERENCES `treserva` (`idreserva`),
-  ADD CONSTRAINT `fkidcliente` FOREIGN KEY (`idcliente`) REFERENCES `tclientes` (`idcliente`);
+  ADD CONSTRAINT `fkidcliente` FOREIGN KEY (`idcliente`) REFERENCES `tclientes` (`idcliente`),
+  ADD CONSTRAINT `fkidreservadetalle` FOREIGN KEY (`idreserva`) REFERENCES `treserva` (`idreserva`);
 
 --
 -- Filtros para la tabla `ttour`

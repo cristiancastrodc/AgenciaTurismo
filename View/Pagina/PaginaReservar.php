@@ -179,7 +179,30 @@
                   <input class="form-control" name="montoequipo" id="montoequipo" placeholder="$..." type="text" readonly="">
                 </div>
               </div>
+              <div class="form-group">
+                <div class="col-md-12">
+                  <button class="btn btn-primary" type="button" id="btn-agregar-equipo"><span class="glyphicon glyphicon-plus" ></span> Agregar Equipo</button>
+                </div>
+              </div>
             </fieldset>
+            <h4 class="text-center">Equipos</h4>
+            <!-- El correlativo para almacenar la cantidad de clientes -->
+            <input type="hidden" class="form-control" name="correlativo_equipo" id="correlativo_equipo" value="0" >
+            <div class="table-responsive">
+              <table class="table table-striped table-compact" id="tabla-equipos">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
             <div class="form-actions">
               <div class="row">
                 <div class="col-md-12">
@@ -245,6 +268,36 @@
       $('#pais').val('');
       $('#nropasaporte').val('');
       $('#fechanacimiento').val('');
+    });
+    // Script para agregar equipos a la tabla
+    $('#btn-agregar-equipo').click(function(event) {
+      // Recuperar valores
+      var idequipo = $('#idequipo').val();
+      var descripcion = $('#equipos [value="' + idequipo + '"]').html()
+      var cantidad = $('#cantidad').val();
+      var precio = $('#equipos [value="' + idequipo + '"]').data('precio')
+      var total = $('#montoequipo').val()
+      if (typeof precio !== 'undefined' && cantidad != '') {
+        // Recuperar el numero de equipo
+        var nro = $('#correlativo_equipo').val();
+        // Agregar equipo a la tabla
+        var fila = '<tr>'
+        fila += '<td><input readonly="" class="no-input" type="text" name="equipos[' + nro + '][idequipo]" value="' + idequipo + '" /></td>'
+        fila += '<td>' + descripcion + '</td>'
+        fila += '<td><input readonly="" class="no-input text-right" type="text" name="equipos[' + nro + '][cantidad]" value="' + cantidad + '" /></td>'
+        fila += '<td><input readonly="" class="no-input text-right" type="text" name="equipos[' + nro + '][precio]" value="' + precio + '" /></td>'
+        fila += '<td><input readonly="" class="no-input text-right" type="text" name="equipos[' + nro + '][total]" value="' + total + '" /></td>'
+        fila += '</tr>'
+        $('#tabla-equipos > tbody').append(fila)
+        // Actualizar correlativo de equipos
+        nro = parseInt(nro) + 1
+        $('#correlativo_equipo').val(nro);
+        // Vaciar campos
+        $('#idequipo').val('');
+        $('#cantidad').val('');
+        $('#precio').val('');
+        $('#montoequipo').val('');
+      }
     });
   </script>
 <?php
